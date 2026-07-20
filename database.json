@@ -1,0 +1,229 @@
+{
+  "usuarios": {
+    "195516138840112@lid": {
+      "registrado": true,
+      "nombre": "pingon",
+      "edad": 18,
+      "xp": 40,
+      "nivel": 2,
+      "coins": 220,
+      "comandos": 14
+    },
+    "209280955359465@lid": {
+      "registrado": true,
+      "nombre": "Melani melano",
+      "edad": 18,
+      "xp": 20,
+      "nivel": 1,
+      "coins": 110,
+      "comandos": 2
+    },
+    "250560490041444@lid": {
+      "registrado": true,
+      "nombre": "Cuchito",
+      "edad": 18,
+      "xp": 200,
+      "nivel": 4,
+      "coins": 707,
+      "comandos": 80
+    },
+    "184615461474313@lid": {
+      "registrado": true,
+      "nombre": "haniball",
+      "edad": 33,
+      "xp": 290,
+      "nivel": 3,
+      "coins": 263,
+      "comandos": 59
+    },
+    "166963280126129@lid": {
+      "registrado": true,
+      "nombre": "pingon",
+      "edad": 9,
+      "xp": 10,
+      "nivel": 2,
+      "coins": 205,
+      "comandos": 11
+    },
+    "136344223399975@lid": {
+      "registrado": true,
+      "nombre": "tu vieja en 4",
+      "edad": 25,
+      "xp": 60,
+      "nivel": 1,
+      "coins": 130,
+      "comandos": 6
+    },
+    "124954171408464@lid": {
+      "registrado": true,
+      "nombre": "sixseven",
+      "edad": 67,
+      "xp": 60,
+      "nivel": 2,
+      "coins": 230,
+      "comandos": 16
+    },
+    "247239876333660@lid": {
+      "registrado": true,
+      "nombre": "Diego",
+      "edad": 19,
+      "xp": 20,
+      "nivel": 1,
+      "coins": 110,
+      "comandos": 2
+    },
+    "137692943749174@lid": {
+      "registrado": true,
+      "nombre": "Jonas",
+      "edad": 86,
+      "xp": 0,
+      "nivel": 1,
+      "coins": 100,
+      "comandos": 0
+    },
+    "33510073085982@lid": {
+      "registrado": true,
+      "nombre": "Gary",
+      "edad": 25,
+      "xp": 30,
+      "nivel": 1,
+      "coins": 115,
+      "comandos": 3
+    },
+    "30318929142009@lid": {
+      "registrado": true,
+      "nombre": "Ronny",
+      "edad": 18,
+      "xp": 50,
+      "nivel": 1,
+      "coins": 125,
+      "comandos": 5
+    },
+    "191861188755584@lid": {
+      "registrado": true,
+      "nombre": "\nTu marido",
+      "edad": 95,
+      "xp": 30,
+      "nivel": 1,
+      "coins": 115,
+      "comandos": 3
+    },
+    "247931936469237@lid": {
+      "registrado": true,
+      "nombre": "tragapingas",
+      "edad": 21,
+      "xp": 20,
+      "nivel": 1,
+      "coins": 110,
+      "comandos": 2
+    },
+    "73796849512577@lid": {
+      "registrado": true,
+      "nombre": "Johana",
+      "edad": 9,
+      "xp": 40,
+      "nivel": 1,
+      "coins": 120,
+      "comandos": 4
+    },
+    "14904308306037@lid": {
+      "registrado": true,
+      "nombre": "junior",
+      "edad": 12,
+      "xp": 290,
+      "nivel": 3,
+      "coins": 495,
+      "comandos": 59
+    },
+    "225396209533162@lid": {
+      "registrado": true,
+      "nombre": "nepe",
+      "edad": 42,
+      "xp": 10,
+      "nivel": 1,
+      "coins": 105,
+      "comandos": 1
+    },
+    "155104908939315@lid": {
+      "registrado": true,
+      "nombre": "klk",
+      "edad": 17,
+      "xp": 20,
+      "nivel": 2,
+      "coins": 210,
+      "comandos": 12
+    },
+    "220427066548319@lid": {
+      "registrado": true,
+      "nombre": "qka",
+      "edad": 18,
+      "xp": 20,
+      "nivel": 1,
+      "coins": 110,
+      "comandos": 2
+    },
+    "136618765746340@lid": {
+      "registrado": true,
+      "nombre": "qka",
+      "edad": 18,
+      "xp": 10,
+      "nivel": 1,
+      "coins": 105,
+      "comandos": 1
+    },
+    "267401039986801@lid": {
+      "registrado": true,
+      "nombre": "Quispe",
+      "edad": 100,
+      "xp": 60,
+      "nivel": 1,
+      "coins": 130,
+      "comandos": 6
+    },
+    "41850412990676@lid": {
+      "registrado": true,
+      "nombre": "Chacho",
+      "edad": 20,
+      "xp": 10,
+      "nivel": 1,
+      "coins": 105,
+      "comandos": 1
+    },
+    "163634160382015@lid": {
+      "registrado": true,
+      "nombre": "pedro",
+      "edad": 19,
+      "xp": 30,
+      "nivel": 3,
+      "coins": 25,
+      "comandos": 33
+    },
+    "130163429892316@lid": {
+      "registrado": true,
+      "nombre": "ed",
+      "edad": 31,
+      "xp": 20,
+      "nivel": 1,
+      "coins": 110,
+      "comandos": 2
+    },
+    "186981837475877@lid": {
+      "registrado": true,
+      "nombre": "sebert",
+      "edad": 23,
+      "xp": 10,
+      "nivel": 1,
+      "coins": 155,
+      "comandos": 1
+    },
+    "177992252817621@lid": {
+      "registrado": true,
+      "nombre": "Edson",
+      "edad": 28,
+      "xp": 10,
+      "nivel": 1,
+      "coins": 105,
+      "comandos": 1
+    }
+  }
+}

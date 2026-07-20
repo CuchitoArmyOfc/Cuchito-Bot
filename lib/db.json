@@ -1,0 +1,280 @@
+{
+  "usuarios": {
+    "250560490041444@lid": {
+      "registrado": true,
+      "nombre": "peru",
+      "edad": 18,
+      "xp": 370,
+      "nivel": 5,
+      "coins": 985,
+      "comandos": 137,
+      "baneado": false
+    },
+    "197757574889560@lid": {
+      "registrado": true,
+      "nombre": "pingon",
+      "edad": 35,
+      "xp": 30,
+      "nivel": 2,
+      "coins": 92,
+      "comandos": 13,
+      "baneado": false
+    },
+    "14904308306037@lid": {
+      "registrado": true,
+      "nombre": "cuchito",
+      "edad": 18,
+      "xp": 270,
+      "nivel": 3,
+      "coins": 152,
+      "comandos": 57,
+      "baneado": false
+    },
+    "45149283442880@lid": {
+      "registrado": true,
+      "nombre": "Damian",
+      "edad": 18,
+      "xp": 10,
+      "nivel": 1,
+      "coins": 105,
+      "comandos": 1,
+      "baneado": false
+    },
+    "123896955162851@lid": {
+      "registrado": true,
+      "nombre": "Antonio García",
+      "edad": 27,
+      "xp": 0,
+      "nivel": 1,
+      "coins": 100,
+      "comandos": 0,
+      "baneado": false
+    },
+    "181428595740880@lid": {
+      "registrado": true,
+      "nombre": "Noemí",
+      "edad": 25,
+      "xp": 60,
+      "nivel": 1,
+      "coins": 130,
+      "comandos": 6,
+      "baneado": false
+    },
+    "33510073085982@lid": {
+      "registrado": true,
+      "nombre": "cm pene",
+      "edad": 17,
+      "xp": 60,
+      "nivel": 1,
+      "coins": 130,
+      "comandos": 6,
+      "baneado": false
+    },
+    "234218223345895@lid": {
+      "registrado": true,
+      "nombre": "Lord Ferran Torres",
+      "edad": 18,
+      "xp": 80,
+      "nivel": 1,
+      "coins": 140,
+      "comandos": 8,
+      "baneado": false
+    },
+    "30318929142009@lid": {
+      "registrado": true,
+      "nombre": "ronny",
+      "edad": 18,
+      "xp": 30,
+      "nivel": 2,
+      "coins": 215,
+      "comandos": 13,
+      "baneado": false
+    },
+    "168173856882700@lid": {
+      "registrado": true,
+      "nombre": "piero",
+      "edad": 18,
+      "xp": 0,
+      "nivel": 1,
+      "coins": 100,
+      "comandos": 0,
+      "baneado": false
+    },
+    "88880506237074@lid": {
+      "registrado": true,
+      "nombre": "luis",
+      "edad": 18,
+      "xp": 0,
+      "nivel": 2,
+      "coins": 200,
+      "comandos": 10,
+      "baneado": false
+    },
+    "267401039986801@lid": {
+      "registrado": true,
+      "nombre": "Quispe",
+      "edad": 100,
+      "xp": 20,
+      "nivel": 1,
+      "coins": 110,
+      "comandos": 2,
+      "baneado": false
+    },
+    "56930345214139@lid": {
+      "registrado": true,
+      "nombre": "Pablo",
+      "edad": 100,
+      "xp": 0,
+      "nivel": 1,
+      "coins": 100,
+      "comandos": 0,
+      "baneado": false
+    },
+    "125056646664312@lid": {
+      "registrado": true,
+      "nombre": "dipsy",
+      "edad": 100,
+      "xp": 10,
+      "nivel": 1,
+      "coins": 105,
+      "comandos": 1,
+      "baneado": false
+    },
+    "184615461474313@lid": {
+      "registrado": true,
+      "nombre": "haniball",
+      "edad": 89,
+      "xp": 290,
+      "nivel": 3,
+      "coins": 0,
+      "comandos": 59,
+      "baneado": false
+    },
+    "247239876333660@lid": {
+      "registrado": true,
+      "nombre": "Diego",
+      "edad": 19,
+      "xp": 20,
+      "nivel": 2,
+      "coins": 208,
+      "comandos": 12,
+      "baneado": false
+    },
+    "251591315742933@lid": {
+      "registrado": true,
+      "nombre": "angel",
+      "edad": 19,
+      "xp": 0,
+      "nivel": 1,
+      "coins": 100,
+      "comandos": 0,
+      "baneado": false
+    },
+    "124954171408464@lid": {
+      "registrado": true,
+      "nombre": "sixseven",
+      "edad": 67,
+      "xp": 80,
+      "nivel": 1,
+      "coins": 120,
+      "comandos": 8,
+      "baneado": false
+    },
+    "195516138840112@lid": {
+      "registrado": true,
+      "nombre": "pingos",
+      "edad": 20,
+      "xp": 30,
+      "nivel": 1,
+      "coins": 115,
+      "comandos": 3,
+      "baneado": false
+    },
+    "975125364843@lid": {
+      "registrado": true,
+      "nombre": "Erick",
+      "edad": 56,
+      "xp": 40,
+      "nivel": 2,
+      "coins": 282,
+      "comandos": 14,
+      "baneado": false
+    },
+    "236468635218119@lid": {
+      "registrado": true,
+      "nombre": "pepe",
+      "edad": 20,
+      "xp": 10,
+      "nivel": 7,
+      "coins": 60,
+      "comandos": 211,
+      "baneado": false
+    },
+    "163634160382015@lid": {
+      "registrado": true,
+      "nombre": "pedro",
+      "edad": 19,
+      "xp": 60,
+      "nivel": 2,
+      "coins": 105,
+      "comandos": 16,
+      "baneado": false
+    },
+    "172864179302647@lid": {
+      "registrado": true,
+      "nombre": "lukaku",
+      "edad": 21,
+      "xp": 20,
+      "nivel": 4,
+      "coins": 105,
+      "comandos": 62,
+      "baneado": false
+    },
+    "24988505612302@lid": {
+      "registrado": true,
+      "nombre": "zaylas",
+      "edad": 20,
+      "xp": 40,
+      "nivel": 1,
+      "coins": 190,
+      "comandos": 4,
+      "baneado": false
+    },
+    "55513089835023@lid": {
+      "registrado": true,
+      "nombre": "jose",
+      "edad": 25,
+      "xp": 90,
+      "nivel": 1,
+      "coins": 482,
+      "comandos": 9,
+      "baneado": false
+    },
+    "186981837475877@lid": {
+      "registrado": true,
+      "nombre": "sebert",
+      "edad": 23,
+      "xp": 10,
+      "nivel": 1,
+      "coins": 205,
+      "comandos": 1,
+      "baneado": false
+    },
+    "141983146311864@lid": {
+      "registrado": true,
+      "nombre": "Kuromy",
+      "edad": 17,
+      "xp": 20,
+      "nivel": 1,
+      "coins": 110,
+      "comandos": 2,
+      "baneado": false
+    }
+  },
+  "robosCooldown": {
+    "14904308306037@lid": 1784504030155,
+    "184615461474313@lid": 1784507952150,
+    "55513089835023@lid": 1784505877432
+  },
+  "botApagado": false
+}
