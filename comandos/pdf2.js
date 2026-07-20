@@ -2,22 +2,28 @@ const fs = require('fs')
 const path = require('path')
 const os = require('os')
 const { PDFDocument } = require('pdf-lib')
-const poppler = require('pdf-poppler')
+let poppler = null
 const { Document, Packer, Paragraph } = require('docx')
 const pdfParse = require('pdf-parse')
 const qpdf = require('node-qpdf2')
 const { downloadMediaMessage } = require('@whiskeysockets/baileys')
 const { GoogleGenAI } = require('@google/genai')
 
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_KEY })
+const GEMINI_KEY = process.env.GEMINI_API_KEY || process.env.GEMINI_KEY
+const genAI = GEMINI_KEY ? new GoogleGenAI({ apiKey: GEMINI_KEY }) : null
 
-console.log('🔑 Clave Gemini detectada:', process.env.GEMINI_KEY?.slice(0, 15), '... longitud:', process.env.GEMINI_KEY?.length)
+console.log('🔑 Clave Gemini detectada:', GEMINI_KEY?.slice(0, 15), '... longitud:', GEMINI_KEY?.length)
 
 async function consultarGemini(prompt) {
+    if (!genAI) {
+        throw new Error('No se encontró GEMINI_API_KEY ni GEMINI_KEY en el entorno')
+    }
+
     const resultado = await genAI.models.generateContent({
         model: 'gemini-flash-latest',
         contents: prompt
     })
+
     return resultado.text
 }
 
@@ -27,7 +33,7 @@ function generarArchivoTxt(nombreBase, contenido) {
     const rutaArchivo = path.join(carpetaTemp, nombreArchivo)
 
     if (!fs.existsSync(carpetaTemp)) {
-        fs.mkdirSync(carpetaTemp)
+        fs.mkdirSync(carpetaTemp, { recursive: true })
     }
 
     fs.writeFileSync(rutaArchivo, contenido, 'utf-8')
@@ -97,7 +103,19 @@ async function pdfAImagen(sock, from, msg) {
         return sock.sendMessage(from, { text: '❌ Responde a un *PDF* con .pdf2img' }, { quoted: msg })
     }
 
+    if (process.platform === 'linux') {
+        return sock.sendMessage(from, {
+            text: '❌ El comando .pdf2img no está disponible en Linux por ahora.'
+        }, { quoted: msg })
+    }
+
+    let tempPdf = null
+
     try {
+        if (!poppler) {
+            poppler = require('pdf-poppler')
+        }
+
         const buffer = await downloadMediaMessage(
             { key: reconstruirKey(msg), message: citado },
             'buffer',
@@ -105,7 +123,7 @@ async function pdfAImagen(sock, from, msg) {
             { logger: undefined, reuploadRequest: sock.updateMediaMessage }
         )
 
-        const tempPdf = path.join(os.tmpdir(), `cuchito_${Date.now()}.pdf`)
+        tempPdf = path.join(os.tmpdir(), `cuchito_${Date.now()}.pdf`)
         fs.writeFileSync(tempPdf, buffer)
 
         const outDir = os.tmpdir()
@@ -131,11 +149,13 @@ async function pdfAImagen(sock, from, msg) {
             await sock.sendMessage(from, { image: fs.readFileSync(rutaImg) }, { quoted: msg })
             fs.unlinkSync(rutaImg)
         }
-
-        fs.unlinkSync(tempPdf)
     } catch (e) {
-        console.error(e)
-        await sock.sendMessage(from, { text: '❌ Error al convertir el PDF a imagen' }, { quoted: msg })
+        console.error('Error pdfAImagen:', e)
+        await sock.sendMessage(from, { text: '❌ Error al convertir el PDF a imagen en este sistema' }, { quoted: msg })
+    } finally {
+        if (tempPdf && fs.existsSync(tempPdf)) {
+            fs.unlinkSync(tempPdf)
+        }
     }
 }
 
@@ -177,7 +197,7 @@ async function eliminarPaginaPdf(sock, from, msg, texto) {
             fileName: 'sin_pagina.pdf'
         }, { quoted: msg })
     } catch (e) {
-        console.error(e)
+        console.error('Error eliminarPaginaPdf:', e)
         await sock.sendMessage(from, { text: '❌ Error al eliminar la página del PDF' }, { quoted: msg })
     }
 }
@@ -196,6 +216,9 @@ async function protegerPdf(sock, from, msg, texto) {
         return sock.sendMessage(from, { text: '❌ Uso: .protectpdf <contraseña>' }, { quoted: msg })
     }
 
+    let tempIn = null
+    let tempOut = null
+
     try {
         const buffer = await downloadMediaMessage(
             { key: reconstruirKey(msg), message: citado },
@@ -204,8 +227,8 @@ async function protegerPdf(sock, from, msg, texto) {
             { logger: undefined, reuploadRequest: sock.updateMediaMessage }
         )
 
-        const tempIn = path.join(os.tmpdir(), `cuchito_in_${Date.now()}.pdf`)
-        const tempOut = path.join(os.tmpdir(), `cuchito_out_${Date.now()}.pdf`)
+        tempIn = path.join(os.tmpdir(), `cuchito_in_${Date.now()}.pdf`)
+        tempOut = path.join(os.tmpdir(), `cuchito_out_${Date.now()}.pdf`)
         fs.writeFileSync(tempIn, buffer)
 
         await qpdf.encrypt({
@@ -220,12 +243,12 @@ async function protegerPdf(sock, from, msg, texto) {
             mimetype: 'application/pdf',
             fileName: 'protegido.pdf'
         }, { quoted: msg })
-
-        fs.unlinkSync(tempIn)
-        fs.unlinkSync(tempOut)
     } catch (e) {
-        console.error(e)
+        console.error('Error protegerPdf:', e)
         await sock.sendMessage(from, { text: '❌ Error al proteger el PDF' }, { quoted: msg })
+    } finally {
+        if (tempIn && fs.existsSync(tempIn)) fs.unlinkSync(tempIn)
+        if (tempOut && fs.existsSync(tempOut)) fs.unlinkSync(tempOut)
     }
 }
 
@@ -247,21 +270,24 @@ async function textoAWord(sock, from, msg, texto) {
             const data = await pdfParse(buffer)
             contenidoTexto = data.text
         } catch (e) {
-            console.error(e)
+            console.error('Error leyendo PDF para Word:', e)
             return sock.sendMessage(from, { text: '❌ Error al leer el PDF' }, { quoted: msg })
         }
     } else {
-        contenidoTexto = texto.replace('.textoword ', '').trim()
+        contenidoTexto = texto.replace('.textoword', '').trim()
         if (!contenidoTexto) {
             return sock.sendMessage(from, { text: '❌ Uso: .textoword <tu texto>\nO responde a un PDF con .textoword' }, { quoted: msg })
         }
     }
 
     try {
-        const parrafos = contenidoTexto.split('\n').map(linea => new Paragraph(linea))
+        const parrafos = contenidoTexto
+            .split('\n')
+            .filter(linea => linea.trim().length > 0)
+            .map(linea => new Paragraph(linea))
 
         const doc = new Document({
-            sections: [{ children: parrafos }]
+            sections: [{ children: parrafos.length ? parrafos : [new Paragraph(' ')] }]
         })
 
         const buffer = await Packer.toBuffer(doc)
@@ -272,7 +298,7 @@ async function textoAWord(sock, from, msg, texto) {
             fileName: 'documento.docx'
         }, { quoted: msg })
     } catch (e) {
-        console.error(e)
+        console.error('Error textoAWord:', e)
         await sock.sendMessage(from, { text: '❌ Error al crear el Word' }, { quoted: msg })
     }
 }
@@ -280,28 +306,30 @@ async function textoAWord(sock, from, msg, texto) {
 // ===== RESOLVER TAREA (IA) =====
 async function resolverTarea(sock, from, msg, texto) {
     const pregunta = texto.slice(7).trim()
+
     if (!pregunta) {
         return sock.sendMessage(from, { text: '❌ Uso: .tarea <tu pregunta o ejercicio>' }, { quoted: msg })
     }
 
     await sock.sendMessage(from, { text: '⏳ *Resolviendo tu tarea mi rey...*' }, { quoted: msg })
 
+    let rutaArchivo = null
+
     try {
         const respuesta = await consultarGemini(pregunta)
-
-        const rutaArchivo = generarArchivoTxt('tarea', respuesta)
+        rutaArchivo = generarArchivoTxt('tarea', respuesta)
 
         await sock.sendMessage(from, {
             document: fs.readFileSync(rutaArchivo),
             fileName: 'Tarea-CuchitoBot.txt',
             mimetype: 'text/plain',
-            caption: `✅ *¡Aquí está tu tarea resuelta!* 📚\n\n💡 Si quieres un resumen más corto, responde a este archivo con *.resumen*`
+            caption: '✅ *¡Aquí está tu tarea resuelta!* 📚\n\n💡 Si quieres un resumen más corto, responde a este archivo con *.resumen*'
         }, { quoted: msg })
-
-        fs.unlinkSync(rutaArchivo)
     } catch (e) {
-        console.error(e)
+        console.error('Error resolverTarea:', e)
         await sock.sendMessage(from, { text: '❌ Error al resolver la tarea mi rey' }, { quoted: msg })
+    } finally {
+        if (rutaArchivo && fs.existsSync(rutaArchivo)) fs.unlinkSync(rutaArchivo)
     }
 }
 
@@ -312,50 +340,51 @@ async function resumirTexto(sock, from, msg, texto) {
 
     let contenidoOriginal = ''
 
-    if (documentoCitado && documentoCitado.mimetype === 'text/plain') {
-        const buffer = await downloadMediaMessage(
-            { key: reconstruirKey(msg), message: citado },
-            'buffer',
-            {},
-            { logger: undefined, reuploadRequest: sock.updateMediaMessage }
-        )
-        contenidoOriginal = buffer.toString('utf-8')
-    } else if (documentoCitado && documentoCitado.fileName?.toLowerCase().endsWith('.pdf')) {
-        const buffer = await downloadMediaMessage(
-            { key: reconstruirKey(msg), message: citado },
-            'buffer',
-            {},
-            { logger: undefined, reuploadRequest: sock.updateMediaMessage }
-        )
-        const data = await pdfParse(buffer)
-        contenidoOriginal = data.text
-    } else {
-        contenidoOriginal = texto.replace('.resumen', '').trim()
-    }
-
-    if (!contenidoOriginal) {
-        return sock.sendMessage(from, {
-            text: '❌ Responde a un archivo .txt o .pdf con *.resumen*, o usa: .resumen <texto largo>'
-        }, { quoted: msg })
-    }
-
-    await sock.sendMessage(from, { text: '⏳ *Generando resumen mi rey...*' }, { quoted: msg })
-
     try {
-        const resumen = await consultarGemini(`Resume esto de forma breve y clara:\n\n${contenidoOriginal}`)
+        if (documentoCitado && documentoCitado.mimetype === 'text/plain') {
+            const buffer = await downloadMediaMessage(
+                { key: reconstruirKey(msg), message: citado },
+                'buffer',
+                {},
+                { logger: undefined, reuploadRequest: sock.updateMediaMessage }
+            )
+            contenidoOriginal = buffer.toString('utf-8')
+        } else if (documentoCitado && documentoCitado.fileName?.toLowerCase().endsWith('.pdf')) {
+            const buffer = await downloadMediaMessage(
+                { key: reconstruirKey(msg), message: citado },
+                'buffer',
+                {},
+                { logger: undefined, reuploadRequest: sock.updateMediaMessage }
+            )
+            const data = await pdfParse(buffer)
+            contenidoOriginal = data.text
+        } else {
+            contenidoOriginal = texto.replace('.resumen', '').trim()
+        }
 
+        if (!contenidoOriginal) {
+            return sock.sendMessage(from, {
+                text: '❌ Responde a un archivo .txt o .pdf con *.resumen*, o usa: .resumen <texto largo>'
+            }, { quoted: msg })
+        }
+
+        await sock.sendMessage(from, { text: '⏳ *Generando resumen mi rey...*' }, { quoted: msg })
+
+        const resumen = await consultarGemini(`Resume esto de forma breve y clara:\n\n${contenidoOriginal}`)
         const rutaArchivo = generarArchivoTxt('resumen', resumen)
 
-        await sock.sendMessage(from, {
-            document: fs.readFileSync(rutaArchivo),
-            fileName: 'Resumen-CuchitoBot.txt',
-            mimetype: 'text/plain',
-            caption: '✅ *¡Aquí está tu resumen!* 📝'
-        }, { quoted: msg })
-
-        fs.unlinkSync(rutaArchivo)
+        try {
+            await sock.sendMessage(from, {
+                document: fs.readFileSync(rutaArchivo),
+                fileName: 'Resumen-CuchitoBot.txt',
+                mimetype: 'text/plain',
+                caption: '✅ *¡Aquí está tu resumen!* 📝'
+            }, { quoted: msg })
+        } finally {
+            if (fs.existsSync(rutaArchivo)) fs.unlinkSync(rutaArchivo)
+        }
     } catch (e) {
-        console.error(e)
+        console.error('Error resumirTexto:', e)
         await sock.sendMessage(from, { text: '❌ Error al generar el resumen mi rey' }, { quoted: msg })
     }
 }
